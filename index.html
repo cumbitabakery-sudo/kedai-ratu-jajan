@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#8b2e1d">
+<title>Kedai Ratu Jajan | Jajan Enak, Hati Senang</title>
+<style>
+:root{--red:#8b2e1d;--orange:#f4a340;--cream:#fff8ed;--ink:#34231d;--muted:#806d63;--green:#26734d}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(120deg,#742316,#a84327);color:#fff;padding:18px max(18px,calc((100% - 1100px)/2));}
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:1.2rem}.brand small{display:block;font-size:.72rem;font-weight:500;opacity:.85}
+button,.btn{border:0;border-radius:12px;padding:11px 15px;font-weight:750;cursor:pointer;background:var(--orange);color:#3b2115}
+.hero{max-width:1100px;margin:auto;padding:36px 18px 42px;display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:center}
+.hero h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1.06;margin:0 0 12px}.hero p{max-width:560px;color:#ffe9d8}.hero-card{background:#fff4e3;color:var(--ink);border-radius:24px;padding:22px;box-shadow:0 12px 30px #3a160e35}.hero-card strong{font-size:1.25rem}
+main{max-width:1100px;margin:auto;padding:24px 18px 100px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap}.section-head h2{margin:0;font-size:1.65rem}
+.search{width:min(100%,340px);padding:12px 14px;border:1px solid #e5d5c6;border-radius:12px;background:#fff;font:inherit}
+.categories{display:flex;gap:8px;overflow:auto;padding:16px 0}.chip{white-space:nowrap;background:#fff;border:1px solid #ead9c8;color:var(--ink);padding:9px 13px;border-radius:99px}.chip.active{background:var(--red);color:#fff;border-color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.product{background:#fff;border:1px solid #f0e3d6;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}.photo{height:135px;background:linear-gradient(135deg,#f8d8a9,#f5eee1);display:grid;place-items:center;font-size:3rem}.pbody{padding:14px;display:flex;flex-direction:column;gap:7px;flex:1}.pbody h3{margin:0;font-size:1rem}.desc{font-size:.85rem;color:var(--muted);min-height:38px}.price{font-weight:850;color:var(--red);margin-top:auto}.add{width:100%;margin-top:7px;background:var(--red);color:#fff}
+.cartbar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:min(94%,560px);background:#2e211b;color:#fff;padding:12px 15px;border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 8px 30px #0004;z-index:5}
+.modal{display:none;position:fixed;inset:0;background:#160b08a8;z-index:10;padding:14px;overflow:auto}.panel{background:#fffaf4;max-width:620px;margin:20px auto;border-radius:20px;padding:20px}.panel h2{margin-top:0}.field{display:grid;gap:5px;margin:12px 0}.field input,.field textarea,.field select{padding:11px;border:1px solid #dfcdbb;border-radius:10px;font:inherit}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #eee0d2}.muted{color:var(--muted);font-size:.85rem}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.secondary{background:#eee2d6}.notice{background:#fff0d8;padding:12px;border-radius:12px;font-size:.88rem}
+footer{background:#3b241c;color:#f9e9dc;padding:28px 18px;text-align:center}footer a{color:#ffd08c}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:28px}.grid{grid-template-columns:repeat(2,1fr)}.photo{height:115px}}
+@media(max-width:430px){.grid{grid-template-columns:1fr 1fr;gap:10px}.pbody{padding:11px}.desc{font-size:.78rem}.photo{height:100px}}
+</style>
+</head>
+<body>
+<header>
+<nav><div class="brand">👑 Kedai Ratu Jajan<small>Jajan enak, hati senang!</small></div><button onclick="openCart()">🛒 Keranjang <span id="navCount">0</span></button></nav>
+<section class="hero">
+<div><h1>Temukan jajan favoritmu hari ini!</h1><p>Aneka minuman segar dan makanan lezat. Pesan praktis dari rumah, lalu pilih diantar atau ambil sendiri.</p><a class="btn" href="#menu">Lihat Menu</a></div>
+<div class="hero-card"><strong>Selamat datang di Kedai Ratu Jajan</strong><p>📍 Jl. Nusantara Katapop II, Majaran, Kec. Salawati, Kabupaten Sorong</p><p>📲 Pesan langsung melalui WhatsApp.</p><button onclick="contactWA()">Hubungi WhatsApp</button></div>
+</section>
+</header>
+<main id="menu">
+<div class="section-head"><div><p class="muted">PILIHAN MENU</p><h2>Menu favorit</h2></div><input class="search" id="search" placeholder="Cari menu..." oninput="render()"></div>
+<div class="categories" id="categories"></div><div class="grid" id="products"></div>
+</main>
+<footer><strong>Kedai Ratu Jajan</strong><p>Jl. Nusantara Katapop II, Majaran, Kec. Salawati, Kabupaten Sorong, Papua Barat Daya 98451</p><p>WhatsApp: +62 857-0554-3828</p><p class="muted">Harga menu yang belum ditetapkan akan dikonfirmasi admin sebelum pesanan diproses.</p></footer>
+<div class="cartbar"><div><strong id="cartSummary">Keranjang kosong</strong><div class="muted" style="color:#ead8c9" id="cartTotal">Tambahkan menu favorit</div></div><button onclick="openCart()">Lihat Keranjang</button></div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeCart()"><div class="panel"><h2>Keranjang & checkout</h2><div id="cartItems"></div><div class="line"><strong>Subtotal</strong><strong id="subtotal">Rp0</strong></div>
+<div class="field"><label>Nama pemesan</label><input id="customer" placeholder="Nama lengkap"></div>
+<div class="field"><label>Nomor WhatsApp</label><input id="phone" placeholder="08xxxxxxxxxx"></div>
+<div class="field"><label>Metode pesanan</label><select id="method" onchange="toggleAddress()"><option value="delivery">Diantar</option><option value="pickup">Ambil sendiri</option></select></div>
+<div class="field" id="addressField"><label>Alamat pengantaran</label><textarea id="address" rows="2" placeholder="Alamat lengkap dan patokan"></textarea></div>
+<div class="field"><label>Metode pembayaran</label><select id="payment"><option>QRIS (menunggu verifikasi admin)</option><option>COD / bayar saat diterima</option><option>Bayar saat ambil</option></select></div>
+<div class="field"><label>Catatan pesanan</label><textarea id="notes" rows="2" placeholder="Catatan tambahan (opsional)"></textarea></div>
+<div class="notice">Ongkir awal Rp5.000 untuk pengantaran. Nilai akhir dan jangkauan pengiriman dikonfirmasi admin. QRIS saat ini memerlukan verifikasi manual; website ini belum memverifikasi pembayaran otomatis.</div>
+<div class="actions"><button onclick="sendOrder()">Kirim pesanan via WhatsApp</button><button class="secondary" onclick="closeCart()">Lanjut belanja</button></div>
+</div></div>
+<script>
+const WA="6285705543828";
+const products=[
+["Mojito Soda","Minuman","blue, lemon, leci, markisa, cocopandan, melon, strawberry","🍹",null],
+["Milky Mojito Series","Minuman","blue, lemon, leci, markisa, cocopandan, melon, strawberry","🥤",null],
+["Pop Ice","Minuman","cappuccino, coklat, strawberry, melon, taro, blueberry, bubblegum, blue, durian, mangga","🧋",null],
+["Sparkling Tea","Minuman","lemon, leci, markisa","🍋",null],
+["Hotdog","Makanan","Hotdog pilihan","🌭",15000],
+["Roti John","Makanan","Roti John lezat","🥖",15000],
+["Burger","Makanan","Harga mulai dari","🍔",15000],
+["Pizza","Makanan","Aneka topping pizza","🍕",45000],
+["Bakaran","Makanan","Aneka menu bakaran","🍢",null],
+["Corndog","Makanan","Camilan corndog","🧀",null]
+];
+let cart={},category="Semua";
+const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
+function render(){let q=document.getElementById("search").value.toLowerCase();document.getElementById("categories").innerHTML=["Semua","Minuman","Makanan"].map(c=>`<button class="chip ${category===c?'active':''}" onclick="category='${c}';render()">${c}</button>`).join("");let list=products.filter(p=>(category==="Semua"||p[1]===category)&&(p[0]+" "+p[2]).toLowerCase().includes(q));document.getElementById("products").innerHTML=list.map(p=>`<article class="product"><div class="photo">${p[3]}</div><div class="pbody"><h3>${p[0]}</h3><div class="desc">${p[2]}</div><div class="price">${p[4]?rupiah(p[4]):"Harga dikonfirmasi admin"}</div><button class="add" onclick="add('${p[0]}')">+ Tambah</button></div></article>`).join("")}
+function add(n){cart[n]=(cart[n]||0)+1;updateCart()}
+function updateCart(){let count=Object.values(cart).reduce((a,b)=>a+b,0);document.getElementById("navCount").textContent=count;document.getElementById("cartSummary").textContent=count?count+" item di keranjang":"Keranjang kosong";document.getElementById("cartTotal").textContent=count?"Lanjutkan ke checkout":"Tambahkan menu favorit"}
+function openCart(){let names=Object.keys(cart);document.getElementById("cartItems").innerHTML=names.length?names.map(n=>`<div class="line"><span>${n}</span><span><button class="secondary" onclick="change('${n}',-1)">−</button> ${cart[n]} <button class="secondary" onclick="change('${n}',1)">+</button></span></div>`).join(""):"Keranjang masih kosong";let total=names.reduce((s,n)=>{let p=products.find(x=>x[0]===n);return s+(p[4]||0)*cart[n]},0);document.getElementById("subtotal").textContent=rupiah(total)+(names.some(n=>!products.find(x=>x[0]===n)[4])?" + menu yang perlu konfirmasi":"");document.getElementById("modal").style.display="block"}
+function change(n,d){cart[n]+=d;if(cart[n]<=0)delete cart[n];updateCart();openCart()}
+function closeCart(){document.getElementById("modal").style.display="none"}
+function toggleAddress(){document.getElementById("addressField").style.display=document.getElementById("method").value==="delivery"?"grid":"none"}
+function contactWA(){window.open("https://wa.me/"+WA,"_blank")}
+function sendOrder(){let names=Object.keys(cart);if(!names.length)return alert("Keranjang masih kosong.");let name=document.getElementById("customer").value.trim(),phone=document.getElementById("phone").value.trim(),method=document.getElementById("method").value,address=document.getElementById("address").value.trim();if(!name||!phone||(method==="delivery"&&!address))return alert("Lengkapi nama, nomor WhatsApp, dan alamat pengantaran.");let total=names.reduce((s,n)=>s+(products.find(x=>x[0]===n)[4]||0)*cart[n],0);let lines=names.map(n=>"- "+n+" x"+cart[n]).join("\n");let msg=`PESANAN KEDAI RATU JAJAN\nNama: ${name}\nHP: ${phone}\nMetode: ${method==="delivery"?"Diantar":"Ambil sendiri"}\n${method==="delivery"?"Alamat: "+address:""}\nPembayaran: ${document.getElementById("payment").value}\n\n${lines}\nSubtotal harga pasti: ${rupiah(total)}\n${method==="delivery"?"Ongkir awal: Rp5.000 (konfirmasi admin)":""}\nCatatan: ${document.getElementById("notes").value||"-"}\n\nMohon konfirmasi total akhir dan ketersediaan menu.`;
+window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank")}
+render();updateCart();
+</script>
+</body></html>
